@@ -7,7 +7,7 @@
 </p>
 
 
-<img src="assets/branding/foxxyplay-neon.svg" width="150" alt="FoxxyPlay Neon Fox"/>
+<img src="https://files.catbox.moe/3jpn3p.png" width="150" alt="FoxxyPlay Neon Fox"/>
 
 # FOXXYPLAY
 
@@ -83,7 +83,7 @@ Five visual directions for the FoxxyPlay identity.
 
 | Neon Fox | Cyber Orbit |
 |:---:|:---:|
-| <img src="assets/branding/foxxyplay-neon.svg" width="130"/> | <img src="assets/branding/foxxyplay-orbit.svg" width="130"/> |
+| <img src="https://files.catbox.moe/3jpn3p.png" width="130"/> | <img src="assets/branding/foxxyplay-orbit.svg" width="130"/> |
 | Audio Wave | Foxxy Monogram |
 | <img src="assets/branding/foxxyplay-wave.svg" width="130"/> | <img src="assets/branding/foxxyplay-monogram.svg" width="130"/> |
 
