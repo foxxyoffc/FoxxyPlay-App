@@ -1,5 +1,12 @@
 <div align="center">
 
+<p align="center">
+  <a href="https://foxxyplay.vercel.app">
+    <img src="https://img.shields.io/badge/Download-FoxxyPlay-9B5CFF?style=for-the-badge&logo=android&logoColor=white" alt="Download FoxxyPlay"/>
+  </a>
+</p>
+
+
 <img src="assets/branding/foxxyplay-neon.svg" width="150" alt="FoxxyPlay Neon Fox"/>
 
 # FOXXYPLAY
