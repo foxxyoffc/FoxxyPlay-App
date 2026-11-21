@@ -61,3 +61,6 @@ app/src/*/google-services.json
 *.damaged
 *.playlist-backup
 /backup-v1.0.5/
+
+# Backup files with suffixes
+*.bak-*
