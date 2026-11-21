@@ -1,0 +1,141 @@
+package com.foxxy.play.data.local
+
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "favorites")
+data class FavoriteEntity(
+    @PrimaryKey val trackId: Long
+)
+
+@Entity(tableName = "playlists")
+data class PlaylistEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val name: String,
+    val createdAt: Long = System.currentTimeMillis()
+)
+
+@Entity(
+    tableName = "playlist_songs",
+    primaryKeys = ["playlistId", "trackId"],
+    foreignKeys = [
+        ForeignKey(
+            entity = PlaylistEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["playlistId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("playlistId"), Index("trackId")]
+)
+data class PlaylistSongEntity(
+    val playlistId: Long,
+    val trackId: Long
+)
+
+@Entity(tableName = "local_music_cache")
+data class LocalMusicCacheEntity(
+    @PrimaryKey val trackId: Long,
+    val title: String,
+    val artist: String,
+    val album: String,
+    val duration: Long
+)
+
+@Entity(tableName = "recently_played")
+data class RecentPlayedEntity(
+    @PrimaryKey val trackId: Long,
+    val playedAt: Long = System.currentTimeMillis()
+)
+
+@Entity(
+    tableName = "online_favorites",
+    primaryKeys = ["source", "trackId"]
+)
+data class OnlineFavoriteEntity(
+    val source: String,
+    val trackId: String,
+    val title: String,
+    val artist: String,
+    val album: String,
+    val coverUrl: String?,
+    val externalUrl: String?,
+    val duration: Long?
+)
+
+@Entity(
+    tableName = "playlist_online_songs",
+    primaryKeys = ["playlistId", "source", "trackId"],
+    foreignKeys = [
+        ForeignKey(
+            entity = PlaylistEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["playlistId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("playlistId")]
+)
+data class OnlinePlaylistSongEntity(
+    val playlistId: Long,
+    val source: String,
+    val trackId: String,
+    val title: String,
+    val artist: String,
+    val album: String,
+    val coverUrl: String?,
+    val externalUrl: String?,
+    val duration: Long?
+)
+
+
+@Entity(
+    tableName = "favorite_order",
+    primaryKeys = ["source", "trackId"]
+)
+data class FavoriteOrderEntity(
+    val source: String,
+    val trackId: String,
+    val position: Int
+)
+
+@Entity(
+    tableName = "playlist_order",
+    primaryKeys = ["playlistId", "source", "trackId"],
+    foreignKeys = [
+        ForeignKey(
+            entity = PlaylistEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["playlistId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("playlistId")]
+)
+data class PlaylistOrderEntity(
+    val playlistId: Long,
+    val source: String,
+    val trackId: String,
+    val position: Int
+)
+
+
+@Entity(
+    tableName = "downloads",
+    primaryKeys = ["source", "trackId"]
+)
+data class DownloadEntity(
+    val source: String,
+    val trackId: String,
+    val title: String,
+    val artist: String,
+    val album: String,
+    val audioPath: String,
+    val coverPath: String?,
+    val duration: Long?,
+    val fileSize: Long,
+    val downloadedAt: Long = System.currentTimeMillis()
+)

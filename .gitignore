@@ -1,0 +1,63 @@
+# Local configuration
+local.properties
+secrets.properties
+.env
+.env.*
+!.env.example
+
+# Firebase configuration
+google-services.json
+
+# Signing credentials
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+
+# Gradle
+.gradle/
+build/
+app/build/
+.kotlin/
+
+# IDE
+.idea/
+*.iml
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Generated files
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Firebase local configuration
+app/google-services.json
+app/src/*/google-services.json
+
+# Local backup artifacts
+*.bak
+*.backup
+*.backup-*
+
+# Backup and temporary source files
+*.bak
+*.backup
+*.backup-*
+*.old
+*.orig
+*~
+
+# Historical source backups
+*.before-*
+*.damaged
+*.playlist-backup
+/backup-v1.0.5/

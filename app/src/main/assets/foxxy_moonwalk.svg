@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 320 180"
+     width="320" height="180">
+
+  <defs>
+    <style>
+      .black { fill: #080808; }
+      .white { fill: #fff; }
+      .line { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+      #body { transform-origin: 155px 100px; animation: bodyMove 1.2s ease-in-out infinite; }
+      #legA { transform-box: view-box; transform-origin: 143px 108px; animation: slideA 1.2s ease-in-out infinite; }
+      #legB { transform-box: view-box; transform-origin: 158px 108px; animation: slideB 1.2s ease-in-out infinite; }
+
+      @keyframes bodyMove {
+        0%,100% { transform: translateY(0) rotate(-4deg); }
+        50% { transform: translateY(-3px) rotate(-2deg); }
+      }
+      @keyframes slideA {
+        0%,100% { transform: translate(0,0) rotate(5deg); }
+        50% { transform: translate(-17px,-5px) rotate(-7deg); }
+      }
+      @keyframes slideB {
+        0%,100% { transform: translate(-17px,-5px) rotate(-7deg); }
+        50% { transform: translate(0,0) rotate(5deg); }
+      }
+    </style>
+  </defs>
+
+  <!-- Ground -->
+  <path d="M35 153 H285" stroke="#777" stroke-width="1.5" opacity=".65"/>
+  <ellipse cx="153" cy="151" rx="67" ry="5" fill="#000" opacity=".18"/>
+
+  <!-- Sliding legs -->
+  <g id="legA">
+    <path class="black" d="M143 104 L155 109 L144 137 L125 146 L119 141 L132 132 Z"/>
+    <path class="white" d="M132 132 L144 137 L139 143 L124 148 L105 147 Q101 145 108 141 L125 137 Z"/>
+    <path class="black" d="M106 144 Q119 145 139 141 L137 148 L106 150 Q99 149 106 144Z"/>
+  </g>
+
+  <g id="legB">
+    <path class="black" d="M155 105 L169 108 L178 135 L195 140 L190 147 L169 144 L157 128 Z"/>
+    <path class="white" d="M177 136 L195 140 L207 140 Q215 143 205 147 L190 149 L178 146 Z"/>
+    <path class="black" d="M190 145 L207 143 Q216 145 208 150 L186 151 L179 148 Z"/>
+  </g>
+
+  <!-- Upper body -->
+  <g id="body">
+    <!-- Jacket -->
+    <path class="black" d="M139 57 Q151 49 168 59 L181 103
+      Q164 115 140 108 L131 77Z"/>
+    <!-- White shirt -->
+    <path class="white" d="M151 58 L162 59 L168 99 L153 104 L145 78Z"/>
+    <!-- Jacket lapels -->
+    <path class="white" d="M143 59 L153 69 L148 88 L139 76Z"/>
+    <path class="white" d="M164 59 L158 72 L166 88 L174 72Z"/>
+
+    <!-- Left arm -->
+    <path class="black" d="M139 64 Q126 67 121 83 L105 105 L114 111
+      L137 91 L150 73Z"/>
+    <path class="white" d="M105 104 Q98 102 95 109 L91 116
+      Q94 122 101 116 L115 111 L114 105Z"/>
+
+    <!-- Raised right arm -->
+    <path class="black" d="M169 63 Q184 59 190 48 L199 36
+      L207 41 L199 62 Q187 77 174 78Z"/>
+    <path class="white" d="M197 36 Q195 29 202 27 L209 32
+      L215 26 Q222 27 218 34 L211 45 L202 47Z"/>
+
+    <!-- Neck and head -->
+    <path class="black" d="M148 49 L148 62 Q157 70 165 59 L162 47Z"/>
+    <path class="black" d="M139 29 Q141 15 158 15 Q175 17 176 34
+      L171 49 Q160 59 146 48 Q138 41 139 29Z"/>
+
+    <!-- Fedora -->
+    <path class="black" d="M132 25 Q135 8 154 7 Q175 8 179 26
+      L175 31 L134 30Z"/>
+    <path class="black" d="M126 28 Q153 22 184 30
+      Q188 34 179 36 Q149 34 125 33 Q119 31 126 28Z"/>
+    <path class="white" d="M135 25 Q155 21 177 27 L178 31
+      Q155 26 134 30Z"/>
+
+    <!-- White glove highlight -->
+    <path class="line" d="M203 31 L209 24 M209 34 L217 30"/>
+
+    <!-- Jacket detail -->
+    <path class="line" d="M155 75 L158 93"/>
+  </g>
+
+  <!-- Subtle monochrome motion accents -->
+  <path d="M83 130 H102 M218 124 H238"
+        stroke="#777" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+</svg>

@@ -1,0 +1,236 @@
+package com.foxxy.play.data.local
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+
+@Database(
+    entities = [
+        FavoriteEntity::class,
+        PlaylistEntity::class,
+        PlaylistSongEntity::class,
+        RecentPlayedEntity::class,
+        OnlineFavoriteEntity::class,
+        OnlinePlaylistSongEntity::class,
+        PlaylistOrderEntity::class,
+        FavoriteOrderEntity::class,
+        LocalMusicCacheEntity::class
+    ],
+    version = 7,
+    exportSchema = false
+)
+abstract class FoxxyDatabase : RoomDatabase() {
+
+    abstract fun libraryDao(): LibraryDao
+
+    companion object {
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS recently_played (trackId INTEGER NOT NULL PRIMARY KEY, playedAt INTEGER NOT NULL)"
+                )
+            }
+        }
+
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS online_favorites (
+                        source TEXT NOT NULL,
+                        trackId TEXT NOT NULL,
+                        title TEXT NOT NULL,
+                        artist TEXT NOT NULL,
+                        album TEXT NOT NULL,
+                        coverUrl TEXT,
+                        externalUrl TEXT,
+                        duration INTEGER,
+                        PRIMARY KEY(source, trackId)
+                    )
+                    """.trimIndent()
+                )
+            }
+        }
+
+
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS playlist_online_songs (
+                        playlistId INTEGER NOT NULL,
+                        source TEXT NOT NULL,
+                        trackId TEXT NOT NULL,
+                        title TEXT NOT NULL,
+                        artist TEXT NOT NULL,
+                        album TEXT NOT NULL,
+                        coverUrl TEXT,
+                        externalUrl TEXT,
+                        duration INTEGER,
+                        PRIMARY KEY(playlistId, source, trackId),
+                        FOREIGN KEY(playlistId) REFERENCES playlists(id)
+                            ON UPDATE NO ACTION ON DELETE CASCADE
+                    )
+                    """.trimIndent()
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS index_playlist_online_songs_playlistId ON playlist_online_songs(playlistId)"
+                )
+            }
+        }
+
+
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS playlist_order (
+                        playlistId INTEGER NOT NULL,
+                        source TEXT NOT NULL,
+                        trackId TEXT NOT NULL,
+                        position INTEGER NOT NULL,
+                        PRIMARY KEY(playlistId, source, trackId),
+                        FOREIGN KEY(playlistId) REFERENCES playlists(id)
+                            ON UPDATE NO ACTION ON DELETE CASCADE
+                    )
+                    """.trimIndent()
+                )
+
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS index_playlist_order_playlistId ON playlist_order(playlistId)"
+                )
+
+                // Migrasi lagu lokal lama terlebih dahulu.
+                db.execSQL(
+                    """
+                    INSERT OR IGNORE INTO playlist_order
+                        (playlistId, source, trackId, position)
+                    SELECT
+                        ps.playlistId,
+                        'local',
+                        CAST(ps.trackId AS TEXT),
+                        (
+                            SELECT COUNT(*) - 1
+                            FROM playlist_songs prior
+                            WHERE prior.playlistId = ps.playlistId
+                              AND prior.trackId <= ps.trackId
+                        )
+                    FROM playlist_songs ps
+                    """.trimIndent()
+                )
+
+                // Lagu Spotify lama ditempatkan setelah lagu lokal.
+                db.execSQL(
+                    """
+                    INSERT OR IGNORE INTO playlist_order
+                        (playlistId, source, trackId, position)
+                    SELECT
+                        online.playlistId,
+                        'spotify',
+                        online.trackId,
+                        (
+                            SELECT COUNT(*)
+                            FROM playlist_songs local
+                            WHERE local.playlistId = online.playlistId
+                        ) +
+                        (
+                            SELECT COUNT(*) - 1
+                            FROM playlist_online_songs prior
+                            WHERE prior.playlistId = online.playlistId
+                              AND (
+                                  prior.title < online.title
+                                  OR (
+                                      prior.title = online.title
+                                      AND prior.trackId <= online.trackId
+                                  )
+                              )
+                        )
+                    FROM playlist_online_songs online
+                    """.trimIndent()
+                )
+            }
+        }
+
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS favorite_order (
+                        source TEXT NOT NULL,
+                        trackId TEXT NOT NULL,
+                        position INTEGER NOT NULL,
+                        PRIMARY KEY(source, trackId)
+                    )
+                    """.trimIndent()
+                )
+
+                db.execSQL(
+                    """
+                    INSERT OR IGNORE INTO favorite_order(source, trackId, position)
+                    SELECT 'local', CAST(current.trackId AS TEXT),
+                        (
+                            SELECT COUNT(*)
+                            FROM favorites previous
+                            WHERE previous.trackId > current.trackId
+                        )
+                    FROM favorites current
+                    """.trimIndent()
+                )
+
+                db.execSQL(
+                    """
+                    INSERT OR IGNORE INTO favorite_order(source, trackId, position)
+                    SELECT 'spotify', current.trackId,
+                        (SELECT COUNT(*) FROM favorites) +
+                        (
+                            SELECT COUNT(*)
+                            FROM online_favorites previous
+                            WHERE previous.title COLLATE NOCASE < current.title COLLATE NOCASE
+                               OR (
+                                   previous.title COLLATE NOCASE = current.title COLLATE NOCASE
+                                   AND previous.trackId < current.trackId
+                               )
+                        )
+                    FROM online_favorites current
+                    """.trimIndent()
+                )
+            }
+        }
+
+
+        private val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS local_music_cache (
+                        trackId INTEGER NOT NULL PRIMARY KEY,
+                        title TEXT NOT NULL,
+                        artist TEXT NOT NULL,
+                        album TEXT NOT NULL,
+                        duration INTEGER NOT NULL
+                    )
+                    """.trimIndent()
+                )
+            }
+        }
+
+        @Volatile
+        private var INSTANCE: FoxxyDatabase? = null
+
+        fun getInstance(context: Context): FoxxyDatabase {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    FoxxyDatabase::class.java,
+                    "foxxyplay_library.db"
+                )
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                    .build()
+                    .also { INSTANCE = it }
+            }
+        }
+    }
+}

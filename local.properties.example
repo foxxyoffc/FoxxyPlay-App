@@ -1,0 +1,6 @@
+# Copy this file to local.properties
+# Android SDK location
+sdk.dir=/path/to/android/sdk
+
+# Music API client ID
+musicapi.clientId=YOUR_MUSIC_CLIENT_ID
