@@ -237,6 +237,6 @@ Kalau kamu suka FoxxyPlay, kasih ⭐ di repository ini ya, itu sangat berarti!
 
 <img src="assets/divider.svg" width="100%" alt=""/>
 
-<sub>Dibuat dengan 🧡 oleh <b>FoxxyOffc</b> · © 2026 FoxxyPlay</sub>
+<sub>Project Created By <b>FoxxyOffc</b> · © 2026 FoxxyPlay</sub>
 
 </div>
