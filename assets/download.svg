@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="84" viewBox="0 0 420 84" role="img" aria-label="Download FoxxyPlay">
+<defs>
+<linearGradient id="b" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff6b4a"/><stop offset=".6" stop-color="#ffb84d"/><stop offset="1" stop-color="#ff8a5c"/></linearGradient>
+<filter id="blur" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="9"/></filter>
+<clipPath id="pill"><rect x="6" y="6" width="408" height="72" rx="36"/></clipPath>
+</defs>
+<rect x="10" y="14" width="400" height="64" rx="32" fill="#ff6b4a" filter="url(#blur)"><animate attributeName="opacity" values=".35;.7;.35" dur="2.4s" repeatCount="indefinite"/></rect>
+<rect x="6" y="6" width="408" height="72" rx="36" fill="url(#b)"/>
+<g clip-path="url(#pill)"><rect x="-80" y="0" width="50" height="84" fill="#fff" opacity=".35" transform="skewX(-20)"><animate attributeName="x" values="-80;-80;460;460" keyTimes="0;.3;.7;1" dur="3.2s" repeatCount="indefinite"/></rect></g>
+<circle cx="52" cy="42" r="24" fill="#1a0f0a"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 -3;0 3;0 -3" dur="1.2s" repeatCount="indefinite"/>
+<path d="M52 31 V50 M43 42 L52 51 L61 42" fill="none" stroke="#ffb84d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="94" y="40" font-family="'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif" font-size="25" font-weight="800" fill="#1a0f0a">Download FoxxyPlay</text>
+<text x="95" y="62" font-family="'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace" font-size="13" letter-spacing="1" fill="#3b1d10">Android APK · Gratis · Tanpa Iklan</text>
+</svg>
