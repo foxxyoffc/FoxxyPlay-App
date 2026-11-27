@@ -233,10 +233,10 @@ Developer di balik FoxxyPlay, proyek pemutar musik Android independen.
 <a href="https://github.com/foxxyoffc"><img src="https://img.shields.io/badge/GitHub-foxxyoffc-ff6b4a?style=for-the-badge&logo=github&logoColor=white&labelColor=1a1233" alt="GitHub"/></a>
 <a href="https://foxxyplay.vercel.app/about.html"><img src="https://img.shields.io/badge/Website-FoxxyPlay-a855f7?style=for-the-badge&logo=vercel&logoColor=white&labelColor=1a1233" alt="Website"/></a>
 
-Kalau kamu suka FoxxyPlay, kasih ⭐ di repository ini ya, itu sangat berarti!
+Kalo suka FoxxyPlay, minimal kasih ⭐ lahh🗿 
 
 <img src="assets/divider.svg" width="100%" alt=""/>
 
-<sub>Project Created By <b>FoxxyOffc</b> · © 2026 FoxxyPlay</sub>
+<sub>FoxxyPlay By <b>FoxxyOffc</b> · © 2026 All Right Reserved</sub>
 
 </div>
